@@ -1,0 +1,73 @@
+﻿@page "/"
+
+<PageTitle>Test Task</PageTitle>
+
+<h1>
+    Test Task for Developer
+</h1>
+<main>
+    <section>
+        <h3>
+            Task Description
+        </h3>
+        <p>Create a web app, for managing sales order data.</p>
+    </section>
+    <section>
+        <h3>
+            Requirements
+        </h3>
+        <ol>
+            <li>Create new database tables Using Code First In Entity Framework.</li>
+            <li>Blazor WebAssembly app with an interface to show data from DB.</li>
+            <li>Make an ability to change and save data in the application: state, name, and dimensions.</li>
+            <li>Add the ability to create and delete orders, windows and elements.</li>
+            <li>Optional: Interface validations. DTO. Separated BLL and DAL projects.</li>
+        </ol>
+    </section>
+    <section>
+        <h3>
+            Test data for storing into the database
+        </h3>
+        <pre>
+            @(testData)
+        </pre>
+    </section>
+</main>
+
+@functions {
+    string testData = @"
+<Orders>
+    <Order Name=""New York Building 1"" State=""NY"">
+        <Windows>
+        <Window Name=""A51"" QuantityOfWindows=""4"" TotalSubElements=""3"">
+        <SubElements>
+        <SubElement Element=""1"" Type=""Doors"" Width=""1200"" Height=""1850"" />
+        <SubElement Element=""2"" Type=""Window"" Width=""800"" Height=""1850"" />
+        <SubElement Element=""3"" Type=""Window"" Width=""700"" Height=""1850"" />
+        </SubElements>
+        </Window>
+        <Window Name=""C Zone 5"" QuantityOfWindows=""2"" TotalSubElements=""1"">
+        <SubElements>
+        <SubElement Element=""1"" Type=""Window"" Width=""1500"" Height=""2000"" />
+        </SubElements>
+        </Window>
+        </Windows>
+    </Order>
+    <Order Name=""California Hotel AJK"" State=""CA"">
+        <Windows>
+        <Window Name=""GLB"" QuantityOfWindows=""3"" TotalSubElements=""2"">
+        <SubElements>
+        <SubElement Element=""1"" Type=""Doors"" Width=""1400"" Height=""2200"" />
+        <SubElement Element=""2"" Type=""Window"" Width=""600"" Height=""2200"" />
+        </SubElements>
+        </Window>
+        <Window Name=""OHF"" QuantityOfWindows=""10"" TotalSubElements=""2"">
+        <SubElements>
+        <SubElement Element=""1"" Type=""Window"" Width=""1500"" Height=""2000"" />
+        <SubElement Element=""1"" Type=""Window"" Width=""1500"" Height=""2000"" />
+        </SubElements>
+        </Window>
+        </Windows>
+    </Order>
+</Orders>";
+}
