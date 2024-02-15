@@ -24,9 +24,10 @@ namespace BlazorApp.Server.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<OrderDto> Get()
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            return null;
+            var items = await _orderService.GetAsync(cancellationToken);
+            return Ok(items);
         }
 
         [HttpGet("{id}")]
@@ -47,6 +48,7 @@ namespace BlazorApp.Server.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] OrderUpsertDto dto)
         {
+
         }
 
         [HttpDelete("{id}")]

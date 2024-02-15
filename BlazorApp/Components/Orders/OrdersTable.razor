@@ -1,0 +1,26 @@
+﻿@using BlazorApp.DataTransferContract.DataTransferObjects.Order
+
+<h3>Orders</h3>
+
+<table class="table table-striped align-middle table-bordered">
+    <thead class="table-success">
+        <tr>
+            <th>Name</th>
+            <th>State</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Items)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.State</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public IEnumerable<OrderDto> Items { get; set; }
+}

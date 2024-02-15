@@ -1,6 +1,27 @@
 ﻿@page "/orders"
+@using BlazorApp.Components.Orders;
+@using BlazorApp.DataTransferContract.DataTransferObjects.Order;
+@inject HttpClient Http;
 
 <PageTitle>Orders</PageTitle>
 
 <h1>Orders</h1>
+
+@if (orders is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <OrdersTable Items="@orders" />
+}
+
+@code {
+    private OrderDto[]? orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await Http.GetFromJsonAsync<OrderDto[]>("api/orders");
+    }
+}
 
