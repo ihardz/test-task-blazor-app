@@ -1,4 +1,6 @@
 ﻿using BlazorApp.BusinessLogic.MappingProfiles;
+using BlazorApp.BusinessLogic.Services;
+using BlazorApp.BusinessLogic.Services.Abstraction;
 using BlazorApp.DataAccess.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +12,8 @@ namespace BlazorApp.BusinessLogic.DependencyInjection
         {
             return services
                 .AddDataAccess(connectionString)
-                .AddAutoMapper(typeof(OrderMappingProfile));
+                .AddAutoMapper(typeof(OrderMappingProfile))
+                .AddScoped<IOrderService, SalesOrderService>();
         }
     }
 }

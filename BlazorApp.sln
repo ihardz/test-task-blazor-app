@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.DataAccess", "Bla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.DataTransferContract", "BlazorApp.DataTransferContract\BlazorApp.DataTransferContract.csproj", "{3BBF2406-B050-46DF-973B-0FBE2C52F02C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Server", "BlazorApp.Server\BlazorApp.Server.csproj", "{F33ECFA6-364E-4F0A-AE64-CE15DA8174B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3BBF2406-B050-46DF-973B-0FBE2C52F02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BBF2406-B050-46DF-973B-0FBE2C52F02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BBF2406-B050-46DF-973B-0FBE2C52F02C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33ECFA6-364E-4F0A-AE64-CE15DA8174B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33ECFA6-364E-4F0A-AE64-CE15DA8174B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33ECFA6-364E-4F0A-AE64-CE15DA8174B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33ECFA6-364E-4F0A-AE64-CE15DA8174B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
