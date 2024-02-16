@@ -1,5 +1,4 @@
-﻿using BlazorApp.DataAccess.Entities;
-using BlazorApp.DataTransferContract.DataTransferObjects.Order;
+﻿using BlazorApp.DataTransferContract.DataTransferObjects.Order;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

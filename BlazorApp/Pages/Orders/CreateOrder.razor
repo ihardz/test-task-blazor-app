@@ -1,0 +1,15 @@
+﻿@page "/orders/new"
+@using BlazorApp.DataTransferContract.DataTransferObjects.State;
+@inject HttpClient Http;
+
+<h3>Create Order</h3>
+
+<BlazorApp.Components.Orders.OrderCreateForm NavigateUriOnSuccess="/orders" States="@states"/>
+
+@code {
+    private IEnumerable<StateDto> states;
+    protected override async Task OnInitializedAsync()
+    {
+        states = await Http.GetFromJsonAsync<StateDto[]>("api/states");        
+    }
+}

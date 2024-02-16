@@ -1,11 +1,14 @@
 ﻿@page "/orders"
 @using BlazorApp.Components.Orders;
 @using BlazorApp.DataTransferContract.DataTransferObjects.Order;
+@inject NavigationManager NavigationManager
 @inject HttpClient Http;
 
 <PageTitle>Orders</PageTitle>
 
 <h1>Orders</h1>
+<button @onclick='() => NavigationManager.NavigateTo("/orders/new")'>Create</button>
+
 
 @if (orders is null)
 {
@@ -17,7 +20,7 @@ else
 }
 
 @code {
-    private OrderDto[]? orders;
+    private OrderDto[] orders;
 
     protected override async Task OnInitializedAsync()
     {
