@@ -28,7 +28,7 @@ namespace BlazorApp.DataAccess.Repositories
         // TODO: add pagination
         public async Task<IEnumerable<Order>> GetAsync(CancellationToken cancellationToken = default)
         {
-            var entities = await DbContext.Orders.ToListAsync(cancellationToken);
+            var entities = await DbContext.Orders.Include(x=>x.State).ToListAsync(cancellationToken);
             return entities;
         }
 
