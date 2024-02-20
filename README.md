@@ -3,6 +3,14 @@
 ## Deployed instance (will be actual for about 1 month): 
 http://ihardz.somee.com/
 
+## Run on local
+
+* Make sure you have dotnet 8.* installed and VS 2022 (any edition)
+* Create a database (Ms Sql Server )
+* Replace connection string in appsettings.json (./BlazorApp.Server/appsettings.json) with actual one
+* In VisualStudio open Package Manager Console and run the following command (to apply EF Core migrations): 
+  ```Update-Database```
+
 ## Task Description
 
 Create a web app, for managing sales order data.
