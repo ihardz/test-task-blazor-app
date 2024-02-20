@@ -3,7 +3,7 @@
 
 namespace BlazorApp.DataAccess.Repositories.Abstraction
 {
-    public interface ISubElementRepository : ICreateRepository<SubElement>
+    public interface ISubElementRepository : IUpsertDeleteRepository<SubElement>
     {
     }
 }

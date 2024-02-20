@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.BusinessLogic.Services
 {
-    internal class SalesOrderService : CreateServiceBase<IOrderRepository, Order, OrderUpsertDto, OrderDto>, IOrderService
+    internal class SalesOrderService : UpsertDeleteServiceBase<IOrderRepository, Order, OrderUpsertDto, OrderDto>, IOrderService
     {
         public SalesOrderService(IOrderRepository orderRepository, IMapper mapper) : base(orderRepository, mapper)
         {
@@ -33,13 +33,6 @@ namespace BlazorApp.BusinessLogic.Services
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             await Repository.DeleteAsync(id, cancellationToken);
-        }
-
-        public async Task UpdateAsync(int id, OrderUpsertDto orderUpsertDto, CancellationToken cancellationToken = default)
-        {
-            var updatedEntity = Mapper.Map<Order>(orderUpsertDto);
-            updatedEntity.Id = id;
-            await Repository.UpdateAsync(updatedEntity, cancellationToken);
         }
     }
 }

@@ -1,0 +1,17 @@
+﻿<ModalSubmit 
+    Title="@ModalTitle" 
+    OnSubmit="@OnConfirm" 
+    TriggerButtonLabel="Delete"
+    SubmitButtonLabel="Confirm">
+    @ModalBody
+</ModalSubmit>
+
+@code {
+    private string ModalTitle => string.IsNullOrWhiteSpace(TargetName) ? "Delete" : $"Delete {TargetName}";
+    private string ModalBody => string.IsNullOrWhiteSpace(TargetName) ? "Are you sure you want to delete?" : $"Are you sure you want to delete the {TargetName}";
+    
+    [Parameter]
+    public string TargetName { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnConfirm{ get; set; }
+}

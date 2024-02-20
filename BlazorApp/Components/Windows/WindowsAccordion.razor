@@ -1,6 +1,8 @@
-﻿@using BlazorApp.Components.SubElements
+﻿@using BlazorApp.Components.Modals
+@using BlazorApp.Components.SubElements
 @using BlazorApp.DataTransferContract.DataTransferObjects.Order
-
+@inject HttpClient Http;
+@inject NavigationManager NavigationManager;
 
 <div class="accordion accordion-flush" id="accordion-@ComponentId">
     @foreach (var item in Items)
@@ -21,6 +23,7 @@
                     <div class="d-flex gap-3 justify-content-end">
                         <SubElementUpsertForm Types="@SubElementTypes" WindowId="@item.Id" />
                         <WindowUpsertForm EditValue="item" />
+                        <DeleteConfirmModal TargetName="Window" OnConfirm="@(async () => await HandleDeleteWindow(@item.Id))" />
                     </div>
                     <div>
                         <SubElementsTable Types="@SubElementTypes" Items="item.SubElements" />
@@ -40,5 +43,9 @@
     public IEnumerable<SubElementTypeDto> SubElementTypes { get; set; }
 
     private string CollapseItemId(WindowDto item) => $"{ComponentId}-{Items.IndexOf(item)}";
-
+    private async Task HandleDeleteWindow(int id)
+    {
+        await Http.DeleteAsync($"api/windows/{id}");
+        NavigationManager.Refresh();
+    }
 }

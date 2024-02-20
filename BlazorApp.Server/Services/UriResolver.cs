@@ -5,10 +5,7 @@ namespace BlazorApp.Server.Services
 {
     public class UriResolver : IUriResolver
     {
-        private Uri Orders => new Uri("Orders", UriKind.Relative);
-
-        public Uri Order(int id) => new Uri(Orders, id.ToString());
-
+        public Uri Order(int id) => new Uri($"orders/{id}", UriKind.Relative);
         public Uri SubElement(int id) => new Uri(id.ToString(), UriKind.Relative);
 
         // todo: real recource url

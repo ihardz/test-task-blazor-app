@@ -2,7 +2,7 @@
 
 namespace BlazorApp.DataAccess.Repositories.Abstraction
 {
-    public interface IWindowRepository : ICreateRepository<Window>
+    public interface IWindowRepository : IUpsertDeleteRepository<Window>
     {
     }
 }

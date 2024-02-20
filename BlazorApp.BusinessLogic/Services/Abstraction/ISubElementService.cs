@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.BusinessLogic.Services.Abstraction
 {
-    public interface ISubElementService
+    public interface ISubElementService : IUpsertDeleteService<SubElementUpsertDto, SubElementDto>
     {
-        Task<SubElementDto> CreateAsync(SubElementUpsertDto createDto, CancellationToken cancellationToken = default);
+
     }
 }

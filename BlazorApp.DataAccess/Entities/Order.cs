@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using BlazorApp.DataAccess.Entities.Abstraction;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlazorApp.DataAccess.Entities
 {
-    public class Order
+    public class Order : IEntity<int>
     {
         [Key]
         public int Id { get; set; }

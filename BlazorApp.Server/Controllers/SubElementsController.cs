@@ -3,7 +3,6 @@ using BlazorApp.DataTransferContract.DataTransferObjects.Order;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Threading;
-using System;
 using BlazorApp.Server.Services.Abstraction;
 
 namespace BlazorApp.Server.Controllers
@@ -22,7 +21,7 @@ namespace BlazorApp.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] SubElementDto createDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post([FromBody] SubElementUpsertDto createDto, CancellationToken cancellationToken)
         {
             var created = await _service.CreateAsync(createDto, cancellationToken);
             var uri = _uriResolver.SubElement(created.Id);
@@ -30,9 +29,17 @@ namespace BlazorApp.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] SubElementDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put(int id, [FromBody] SubElementUpsertDto updateDto, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _service.UpdateAsync(id, updateDto, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+        {
+            await _service.DeleteAsync(id, cancellationToken);
+            return NoContent();
         }
     }
 }

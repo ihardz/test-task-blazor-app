@@ -6,7 +6,7 @@ using BlazorApp.DataTransferContract.DataTransferObjects.Order;
 
 namespace BlazorApp.BusinessLogic.Services
 {
-    internal class WindowService : CreateServiceBase<IWindowRepository, Window, WindowUpsertDto, WindowDto>, IWindowService
+    internal class WindowService : UpsertDeleteServiceBase<IWindowRepository, Window, WindowUpsertDto, WindowDto>, IWindowService
     {
         public WindowService(IWindowRepository repository, IMapper mapper) : base(repository, mapper) 
         {

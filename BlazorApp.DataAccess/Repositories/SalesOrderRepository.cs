@@ -46,9 +46,9 @@ namespace BlazorApp.DataAccess.Repositories
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task UpdateAsync(Order order, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(Order entity, CancellationToken cancellationToken = default)
         {
-            DbContext.Orders.Update(order);
+            DbContext.Orders.Update(entity);
             await DbContext.SaveChangesAsync(cancellationToken);
         }
     }

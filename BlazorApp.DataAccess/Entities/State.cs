@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlazorApp.DataAccess.Entities.Abstraction;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace BlazorApp.DataAccess.Entities
 {
     [Index(nameof(Abbreviation), IsUnique = true, Name = "IX_Abbreviation_Unique")]
-    public class State
+    public class State : IEntity<int>
     {
         [Key]
         public int Id { get; set; }

@@ -16,13 +16,13 @@ namespace BlazorApp.Server.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderService _orderService;
+        private readonly IOrderService _service;
         private readonly IUriResolver _uriResolver;
         private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IOrderService orderService, IUriResolver uriResolver, ILogger<OrdersController> logger)
+        public OrdersController(IOrderService service, IUriResolver uriResolver, ILogger<OrdersController> logger)
         {
-            _orderService = orderService;
+            _service = service;
             _uriResolver = uriResolver;
             _logger = logger;
         }
@@ -33,7 +33,7 @@ namespace BlazorApp.Server.Controllers
             IEnumerable<OrderDto> result;
             try
             {
-                result = await _orderService.GetAsync(cancellationToken);
+                result = await _service.GetAsync(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace BlazorApp.Server.Controllers
             OrderDto result;
             try
             {
-                result = await _orderService.GetByIdAsync(id, cancellationToken);
+                result = await _service.GetByIdAsync(id, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace BlazorApp.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] OrderUpsertDto orderCreateDto, CancellationToken cancellationToken)
         {
-            var orderDto = await _orderService.CreateAsync(orderCreateDto, cancellationToken);
+            var orderDto = await _service.CreateAsync(orderCreateDto, cancellationToken);
             var uri = _uriResolver.Order(orderDto.Id);
             return Created(uri, orderDto);
         }
@@ -78,14 +78,14 @@ namespace BlazorApp.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] OrderUpsertDto dto)
         {
-            await _orderService.UpdateAsync(id, dto);
+            await _service.UpdateAsync(id, dto);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
-            await _orderService.DeleteAsync(id, cancellationToken);
+            await _service.DeleteAsync(id, cancellationToken);
             return NoContent();
         }
     }

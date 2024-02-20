@@ -8,7 +8,7 @@
 @inject IMapper Mapper;
 
 <EditForm EditContext="editContext" OnValidSubmit="Submit">
-    <ModalSubmit TriggerButtonLabel="@TriggerButtonLabel" SubmitButtonLabel="@SubmitButtonLabel">
+    <ModalSubmit TriggerButtonLabel="@TriggerButtonLabel" SubmitButtonLabel="@SubmitButtonLabel" Title="@TriggerButtonLabel">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="d-flex flex-column gap-3">
@@ -49,7 +49,7 @@
     private ValidationMessageStore messageStore;
     private int? Id => EditValue?.Id;
     private bool IsEdit => Id.HasValue;
-    private string TriggerButtonLabel => IsEdit ? "Edit Sub Element" : "Create Sub Element";
+    private string TriggerButtonLabel => IsEdit ? "Edit" : "Create Sub Element";
     private string SubmitButtonLabel => IsEdit ? "Update" : "Create";
 
     private SendData ServerSend => IsEdit ?

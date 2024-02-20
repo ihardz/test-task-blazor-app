@@ -1,4 +1,7 @@
-﻿@using BlazorApp.DataTransferContract.DataTransferObjects.Order
+﻿@using BlazorApp.Components.Modals
+@using BlazorApp.DataTransferContract.DataTransferObjects.Order
+@inject HttpClient Http;
+@inject NavigationManager NavigationManager;
 
 <table class="table table-striped">
     <thead>
@@ -7,6 +10,7 @@
             <th>Type</th>
             <th>Width</th>
             <th>Height</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +21,10 @@
                 <td>@ResolveType(item.TypeId)</td>
                 <td>@item.Width</td>
                 <td>@item.Height</td>
+                <td class="d-flex gap-3">
+                    <DeleteConfirmModal TargetName="SubElement" OnConfirm="@(async () => await HandleDelete(@item.Id))" />
+                    <SubElementUpsertForm Types="@Types" EditValue="@item" />
+                </td>
             </tr>
         }
     </tbody>
@@ -29,5 +37,9 @@
     public IEnumerable<SubElementTypeDto> Types { get; set; }
 
     private string ResolveType(int typeId) => Types?.FirstOrDefault(x => x.Id.Equals(typeId))?.Name ?? "Unresolved";
-
+    private async Task HandleDelete(int id)
+    {
+        await Http.DeleteAsync($"api/subElements/{id}");
+        NavigationManager.Refresh();
+    }
 }

@@ -3,7 +3,6 @@ using BlazorApp.DataTransferContract.DataTransferObjects.Order;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Threading;
-using System;
 using BlazorApp.Server.Services.Abstraction;
 
 namespace BlazorApp.Server.Controllers
@@ -12,27 +11,35 @@ namespace BlazorApp.Server.Controllers
     [ApiController]
     public class WindowsController : ControllerBase
     {
-        private readonly IWindowService _windowService;
+        private readonly IWindowService _service;
         private readonly IUriResolver _uriResolver;
 
-        public WindowsController(IWindowService windowService, IUriResolver uriResolver)
+        public WindowsController(IWindowService service, IUriResolver uriResolver)
         {
-            _windowService = windowService;
+            _service = service;
             _uriResolver = uriResolver;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] WindowUpsertDto createDto, CancellationToken cancellationToken)
         {
-            var created = await _windowService.CreateAsync(createDto, cancellationToken);
+            var created = await _service.CreateAsync(createDto, cancellationToken);
             var uri =_uriResolver.Window(created.Id);
             return Created(uri, created);
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] WindowUpsertDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put(int id, [FromBody] WindowUpsertDto updateDto, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _service.UpdateAsync(id, updateDto, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+        {
+            await _service.DeleteAsync(id, cancellationToken);
+            return NoContent();
         }
     }
 }

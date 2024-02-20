@@ -6,6 +6,7 @@
 @using BlazorApp.DataTransferContract.DataTransferObjects.Order
 @using BlazorApp.DataTransferContract.DataTransferObjects.State
 @inject HttpClient Http;
+@inject NavigationManager NavigationManager;
 @inject IStateClient StateClient;
 @inject ISubElementTypeClient SubElementTypeClient;
 
@@ -20,6 +21,7 @@ else if (item is not null)
     <div class="d-flex gap-3 justify-content-end">
         <WindowUpsertForm OrderId="@item.Id" />
         <OrderUpsertForm EditValue="@item" States="@states" />
+        <DeleteConfirmModal TargetName="Window" OnConfirm="@(async () => await HandleDeleteOrder(item.Id))" />
     </div>
     <OrderDetails Item="@item" States="@states" SubElementTypes="@subElementTypes" />
 }
@@ -54,5 +56,11 @@ else
         {
             loading = false;
         }
+    }
+
+    private async Task HandleDeleteOrder(int id)
+    {
+        await Http.DeleteAsync($"api/orders/{id}");
+        NavigationManager.Refresh();
     }
 }

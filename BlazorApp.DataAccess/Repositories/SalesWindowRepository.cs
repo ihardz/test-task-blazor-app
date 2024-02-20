@@ -10,11 +10,25 @@ namespace BlazorApp.DataAccess.Repositories
     {
         public SalesWindowRepository(SalesDbContext dbContext) : base(dbContext) { }
 
-        public async Task<Window> CreateAsync(Window window, CancellationToken cancellationToken = default)
+        public async Task<Window> CreateAsync(Window entity, CancellationToken cancellationToken = default)
         {
-            DbContext.Add(window);
+            DbContext.Add(entity);
             await DbContext.SaveChangesAsync();
-            return window;
+            return entity;
+        }
+
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var target = new Window { Id = id };
+            DbContext.Windows.Attach(target);
+            DbContext.Windows.Remove(target);
+            await DbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateAsync(Window entity, CancellationToken cancellationToken = default)
+        {
+            DbContext.Windows.Update(entity);
+            await DbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
