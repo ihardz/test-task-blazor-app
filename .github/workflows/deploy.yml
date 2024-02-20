@@ -1,28 +1,45 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+name: 🚀 Deploy
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch
 
+env:
+  SERVER: 'ihardz.somee.com'
+  SERVER_USERNAME: ${{ secrets.HOST_USERNAME }}
+  SERVER_PASSWORD: ${{ secrets.HOST_PASSWORD }}
 jobs:
-  build:
-
+  build-and-deploy:
+    name: 🎉 Build and Deploy
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish -c Release --output ./Release
+    - name: App Settings Variable Substitution
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: './Release/appsettings.json'
+      env:
+        ConnectionStrings.BlazorSales: ${{ secrets.BLAZOR_SALES_CONNECTION_STRING }}
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.2.0
+      with:
+        server: ${{ env.SERVER }} 
+        username: ${{ env.SERVER_USERNAME }} 
+        password: ${{ env.SERVER_PASSWORD }}
+        local-dir: './Release/'
+        log-level: 'verbose'
+        server-dir: './www.ihardz.somee.com/'
+        protocol: 'ftp'
+        security: 'loose'
+        dangerous-clean-slate: true
