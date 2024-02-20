@@ -1,6 +1,6 @@
 # Test Task for Developer
 
-## Deployed instance (will be actual about 1 month): 
+## Deployed instance (will be actual for about 1 month): 
 http://ihardz.somee.com/
 
 ## Task Description
