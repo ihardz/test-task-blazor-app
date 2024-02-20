@@ -1,0 +1,25 @@
+﻿@using BlazorApp.DataTransferContract.DataTransferObjects.Order;
+@using BlazorApp.Components.Windows;
+@using BlazorApp.DataTransferContract.DataTransferObjects.State
+
+
+@if (Item is not null)
+{
+    <div class="d-flex flex-column gap-3">
+        <h4><span>@StateDisplay</span>: <span>@Item.Name</span></h4>
+        <WindowsAccordion Items="@Item.Windows.ToList()" SubElementTypes="@SubElementTypes" />
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public OrderDto Item { get; set; }
+    public string StateDisplay => States?.FirstOrDefault(x => x.Id.Equals(Item?.StateId))?.Abbreviation ?? "Unresolved";
+
+    [Parameter]
+    public IEnumerable<StateDto> States { get; set; }
+    [Parameter]
+    public IEnumerable<SubElementTypeDto> SubElementTypes { get; set; }
+
+}

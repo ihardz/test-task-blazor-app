@@ -2,6 +2,8 @@
 using BlazorApp.DataTransferContract.DataTransferObjects.Order;
 using BlazorApp.Server.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,25 +18,53 @@ namespace BlazorApp.Server.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IUriResolver _uriResolver;
+        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IOrderService orderService, IUriResolver uriResolver)
+        public OrdersController(IOrderService orderService, IUriResolver uriResolver, ILogger<OrdersController> logger)
         {
             _orderService = orderService;
             _uriResolver = uriResolver;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            var items = await _orderService.GetAsync(cancellationToken);
-            return Ok(items);
+            IEnumerable<OrderDto> result;
+            try
+            {
+                result = await _orderService.GetAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                var message = $"Unable to get orders.";
+                _logger.LogCritical(ex, message);
+                return Problem(message);
+            }
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
         {
-            var orderDto = await _orderService.GetByIdAsync(id, cancellationToken);
-            return Ok(orderDto);
+            OrderDto result;
+            try
+            {
+                result = await _orderService.GetByIdAsync(id, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                var message = $"Unable to get order by id: {id}.";
+                _logger.LogCritical(ex, message);
+                return Problem(message);
+            }
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -46,15 +76,16 @@ namespace BlazorApp.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] OrderUpsertDto dto)
+        public async Task<IActionResult> Put(int id, [FromBody] OrderUpsertDto dto)
         {
-
+            await _orderService.UpdateAsync(id, dto);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
-            await _orderService.Delete(id, cancellationToken);
+            await _orderService.DeleteAsync(id, cancellationToken);
             return NoContent();
         }
     }

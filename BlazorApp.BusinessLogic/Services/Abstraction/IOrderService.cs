@@ -10,6 +10,7 @@ namespace BlazorApp.BusinessLogic.Services.Abstraction
         Task<OrderDto> CreateAsync(OrderUpsertDto orderUpsertDto, CancellationToken cancellationToken = default);
         Task<OrderDto> GetByIdAsync(int id, CancellationToken cancellationToken = default);
         Task<IEnumerable<OrderDto>> GetAsync(CancellationToken cancellationToken = default);
-        Task Delete(int id, CancellationToken cancellationToken = default);
+        Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+        Task UpdateAsync(int id, OrderUpsertDto orderUpsertDto, CancellationToken cancellationToken = default);
     }
 }

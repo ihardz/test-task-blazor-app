@@ -13,7 +13,10 @@ namespace BlazorApp.DataAccess.DependencyInjection
             return services
                 .AddDbContextFactory<SalesDbContext>(options => options.UseSqlServer(connectionString))
                 .AddScoped<IOrderRepository, SalesOrderRepository>()
-                .AddScoped<IStateRepository, StateRepository>();
+                .AddScoped<IStateRepository, StateRepository>()
+                .AddScoped<IWindowRepository, SalesWindowRepository>()
+                .AddScoped<ISubElementTypeRepository, SubElementTypeRepository>()
+                .AddScoped<ISubElementRepository, SubElementRepository>();
         }
     }
 }

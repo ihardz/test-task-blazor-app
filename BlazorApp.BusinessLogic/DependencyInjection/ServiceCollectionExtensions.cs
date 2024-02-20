@@ -12,9 +12,12 @@ namespace BlazorApp.BusinessLogic.DependencyInjection
         {
             return services
                 .AddDataAccess(connectionString)
-                .AddAutoMapper(typeof(OrderMappingProfile))
+                .AddAutoMapper(typeof(SalesMappingProfile))
                 .AddScoped<IOrderService, SalesOrderService>()
-                .AddScoped<IStateService, StateService>();
+                .AddScoped<IStateService, StateService>()
+                .AddScoped<IWindowService, WindowService>()
+                .AddScoped<ISubElementTypeService, SubElementTypeService>()
+                .AddScoped<ISubElementService, SubElementService>();
         }
     }
 }

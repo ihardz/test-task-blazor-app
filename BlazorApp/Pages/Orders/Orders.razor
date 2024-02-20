@@ -1,14 +1,16 @@
 ﻿@page "/orders"
+@using BlazorApp.Clients.Abstraction
 @using BlazorApp.Components.Orders;
 @using BlazorApp.DataTransferContract.DataTransferObjects.Order;
+@using BlazorApp.DataTransferContract.DataTransferObjects.State
 @inject NavigationManager NavigationManager
 @inject HttpClient Http;
+@inject IStateClient StateClient;
+
 
 <PageTitle>Orders</PageTitle>
 
 <h1>Orders</h1>
-<button @onclick='() => NavigationManager.NavigateTo("/orders/new")'>Create</button>
-
 
 @if (orders is null)
 {
@@ -16,14 +18,17 @@
 }
 else
 {
-    <OrdersTable Items="@orders" />
+    <OrderUpsertForm States="@states" />
+    <OrdersTable Items="@orders" States="@states"/>
 }
 
 @code {
+    private IEnumerable<StateDto> states;
     private OrderDto[] orders;
 
     protected override async Task OnInitializedAsync()
     {
+        states = await StateClient.GetStatesAsync();
         orders = await Http.GetFromJsonAsync<OrderDto[]>("api/orders");
     }
 }

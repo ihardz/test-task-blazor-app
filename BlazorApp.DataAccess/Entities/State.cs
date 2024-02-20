@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorApp.DataAccess.Entities
 {
-    //  migrationBuilder.InsertData("States", nameof(State.Abbreviation), MigrationsData.StatesAbbreviations.ToArray());
-    [Index(nameof(Abbreviation), IsUnique = true)]
+    [Index(nameof(Abbreviation), IsUnique = true, Name = "IX_Abbreviation_Unique")]
     public class State
     {
         [Key]

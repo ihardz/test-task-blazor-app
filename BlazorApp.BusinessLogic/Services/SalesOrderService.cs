@@ -10,42 +10,36 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.BusinessLogic.Services
 {
-    internal class SalesOrderService : IOrderService
+    internal class SalesOrderService : CreateServiceBase<IOrderRepository, Order, OrderUpsertDto, OrderDto>, IOrderService
     {
-        private readonly IOrderRepository _orderRepository;
-        private readonly IMapper _mapper;
-
-        public SalesOrderService(
-            IOrderRepository orderRepository,
-            IMapper mapper)
+        public SalesOrderService(IOrderRepository orderRepository, IMapper mapper) : base(orderRepository, mapper)
         {
-            _orderRepository = orderRepository;
-            _mapper = mapper;
-        }
-
-        public async Task<OrderDto> CreateAsync(OrderUpsertDto orderUpsertDto, CancellationToken cancellationToken = default)
-        {
-            var create = _mapper.Map<Order>(orderUpsertDto);
-            var entity = await _orderRepository.CreateAsync(create, cancellationToken);
-            return _mapper.Map<OrderDto>(entity);
+            Repository = orderRepository;
         }
 
         public async Task<OrderDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var entity = await _orderRepository.GetByIdAsync(id, cancellationToken);
-            return _mapper.Map<OrderDto>(entity);
+            var entity = await Repository.GetByIdAsync(id, cancellationToken);
+            return Mapper.Map<OrderDto>(entity);
         }
 
         public async Task<IEnumerable<OrderDto>> GetAsync(CancellationToken cancellationToken = default)
         {
-            var entities = await _orderRepository.GetAsync(cancellationToken);
-            var dtos = entities.Select(_mapper.Map<OrderDto>);
+            var entities = await Repository.GetAsync(cancellationToken);
+            var dtos = entities.Select(Mapper.Map<OrderDto>);
             return dtos;
         }
 
-        public async Task Delete(int id, CancellationToken cancellationToken = default)
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            await _orderRepository.Delete(id, cancellationToken);
+            await Repository.DeleteAsync(id, cancellationToken);
+        }
+
+        public async Task UpdateAsync(int id, OrderUpsertDto orderUpsertDto, CancellationToken cancellationToken = default)
+        {
+            var updatedEntity = Mapper.Map<Order>(orderUpsertDto);
+            updatedEntity.Id = id;
+            await Repository.UpdateAsync(updatedEntity, cancellationToken);
         }
     }
 }

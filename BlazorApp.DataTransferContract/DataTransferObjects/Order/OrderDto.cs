@@ -1,16 +1,14 @@
 ﻿using BlazorApp.DataTransferContract.DataTransferObjects.State;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BlazorApp.DataTransferContract.DataTransferObjects.Order
 {
-    public class OrderDto
+    public class OrderDto : OrderUpsertDto
     {
-        [Required]
         public int Id { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
-        [Required]
         public StateDto State  { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public IEnumerable<WindowDto> Windows { get; set; }
     }
 }

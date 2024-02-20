@@ -7,6 +7,9 @@ namespace BlazorApp.DataAccess.DatabaseContexts
     {
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<State> States { get; set; }
+        public virtual DbSet<Window> Windows { get; set; }
+        public virtual DbSet<SubElement> SubElements { get; set; }
+        public virtual DbSet<SubElementType> SubElementTypes { get; set; }
 
         public SalesDbContext(DbContextOptions<SalesDbContext> options)
             : base(options)

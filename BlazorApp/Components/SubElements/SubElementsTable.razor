@@ -1,0 +1,33 @@
+﻿@using BlazorApp.DataTransferContract.DataTransferObjects.Order
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Element</th>
+            <th>Type</th>
+            <th>Width</th>
+            <th>Height</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Items)
+        {
+            <tr>
+                <td>@item.Element</td>
+                <td>@ResolveType(item.TypeId)</td>
+                <td>@item.Width</td>
+                <td>@item.Height</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public IEnumerable<SubElementDto> Items { get; set; }
+    [Parameter]
+    public IEnumerable<SubElementTypeDto> Types { get; set; }
+
+    private string ResolveType(int typeId) => Types?.FirstOrDefault(x => x.Id.Equals(typeId))?.Name ?? "Unresolved";
+
+}

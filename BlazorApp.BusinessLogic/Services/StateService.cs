@@ -9,20 +9,18 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.BusinessLogic.Services
 {
-    public class StateService : IStateService
+    internal class StateService : MapperServiceBase, IStateService
     {
         private readonly IStateRepository _stateRepository;
-        private readonly IMapper _mapper;
 
-        public StateService(IStateRepository stateRepository, IMapper mapper)
+        public StateService(IStateRepository stateRepository, IMapper mapper): base(mapper) 
         {
             _stateRepository = stateRepository;
-            _mapper = mapper;
         }
         public async Task<IEnumerable<StateDto>> GetAsync(CancellationToken cancellationToken)
         {
             var entities = await _stateRepository.GetAsync(cancellationToken);
-            var dtos = entities.Select(_mapper.Map<StateDto>);
+            var dtos = entities.Select(Mapper.Map<StateDto>);
             return dtos;
         }
     }

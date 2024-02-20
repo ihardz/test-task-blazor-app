@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.DataAccess.Repositories.Abstraction
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : ICreateRepository<Order>
     {
-        Task<Order> CreateAsync(Order order, CancellationToken cancellationToken = default);
         Task<Order> GetByIdAsync(int id, CancellationToken cancellationToken = default);
         Task<IEnumerable<Order>> GetAsync(CancellationToken cancellationToken = default);
-        Task Delete(int id, CancellationToken cancellationToken = default);
+        Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+        Task UpdateAsync(Order order, CancellationToken cancellationToken = default);
     }
 }

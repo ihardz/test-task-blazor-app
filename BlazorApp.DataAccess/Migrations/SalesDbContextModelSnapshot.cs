@@ -58,10 +58,91 @@ namespace BlazorApp.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Abbreviation")
+                    b.HasIndex(new[] { "Abbreviation" }, "IX_Abbreviation_Unique")
                         .IsUnique();
 
                     b.ToTable("States");
+                });
+
+            modelBuilder.Entity("BlazorApp.DataAccess.Entities.SubElement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Element")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WindowId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.HasIndex("WindowId");
+
+                    b.HasIndex(new[] { "Element", "WindowId" }, "IX_Element_WindowId_Unique")
+                        .IsUnique();
+
+                    b.ToTable("SubElements");
+                });
+
+            modelBuilder.Entity("BlazorApp.DataAccess.Entities.SubElementType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("SubElementTypes");
+                });
+
+            modelBuilder.Entity("BlazorApp.DataAccess.Entities.Window", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Windows");
                 });
 
             modelBuilder.Entity("BlazorApp.DataAccess.Entities.Order", b =>
@@ -73,6 +154,42 @@ namespace BlazorApp.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("State");
+                });
+
+            modelBuilder.Entity("BlazorApp.DataAccess.Entities.SubElement", b =>
+                {
+                    b.HasOne("BlazorApp.DataAccess.Entities.SubElementType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BlazorApp.DataAccess.Entities.Window", null)
+                        .WithMany("SubElements")
+                        .HasForeignKey("WindowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("BlazorApp.DataAccess.Entities.Window", b =>
+                {
+                    b.HasOne("BlazorApp.DataAccess.Entities.Order", null)
+                        .WithMany("Windows")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BlazorApp.DataAccess.Entities.Order", b =>
+                {
+                    b.Navigation("Windows");
+                });
+
+            modelBuilder.Entity("BlazorApp.DataAccess.Entities.Window", b =>
+                {
+                    b.Navigation("SubElements");
                 });
 #pragma warning restore 612, 618
         }

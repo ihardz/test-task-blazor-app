@@ -7,9 +7,11 @@ namespace BlazorApp.Server.Services
     {
         private Uri Orders => new Uri("Orders", UriKind.Relative);
 
-        public Uri Order(int id)
-        {
-            return new Uri(Orders, id.ToString());
-        }
+        public Uri Order(int id) => new Uri(Orders, id.ToString());
+
+        public Uri SubElement(int id) => new Uri(id.ToString(), UriKind.Relative);
+
+        // todo: real recource url
+        public Uri Window(int id) => new Uri(id.ToString(), UriKind.Relative);
     }
 }

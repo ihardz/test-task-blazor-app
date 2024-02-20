@@ -1,0 +1,58 @@
+﻿@page "/orders/{Id:int}";
+@using BlazorApp.Clients.Abstraction
+@using BlazorApp.Components.Orders
+@using BlazorApp.Components.Modals
+@using BlazorApp.Components.Windows
+@using BlazorApp.DataTransferContract.DataTransferObjects.Order
+@using BlazorApp.DataTransferContract.DataTransferObjects.State
+@inject HttpClient Http;
+@inject IStateClient StateClient;
+@inject ISubElementTypeClient SubElementTypeClient;
+
+<PageTitle>Order</PageTitle>
+
+@if (loading)
+{
+    <em>Loading...</em>
+}
+else if (item is not null)
+{
+    <div class="d-flex gap-3 justify-content-end">
+        <WindowUpsertForm OrderId="@item.Id" />
+        <OrderUpsertForm EditValue="@item" States="@states" />
+    </div>
+    <OrderDetails Item="@item" States="@states" SubElementTypes="@subElementTypes" />
+}
+else
+{
+    <em>Not Found</em>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private IEnumerable<StateDto> states;
+    private IEnumerable<SubElementTypeDto> subElementTypes { get; set; }
+
+    private OrderDto item;
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            subElementTypes = await SubElementTypeClient.GetSubElementTypesAsync();
+            states = await StateClient.GetStatesAsync();
+            item = await Http.GetFromJsonAsync<OrderDto>($"api/orders/{Id}");
+        }
+        catch (Exception ex)
+        {
+            await DispatchExceptionAsync(ex);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+}

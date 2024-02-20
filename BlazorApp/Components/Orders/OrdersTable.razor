@@ -1,4 +1,6 @@
 ﻿@using BlazorApp.DataTransferContract.DataTransferObjects.Order
+@using BlazorApp.DataTransferContract.DataTransferObjects.State
+@inject NavigationManager NavigationManager
 
 <h3>Orders</h3>
 
@@ -12,9 +14,9 @@
     <tbody>
         @foreach (var item in Items)
         {
-            <tr>
+            <tr role="button" @onclick="() => NavigateOrderById(item.Id)">
                 <td>@item.Name</td>
-                <td>@item.State.Abbreviation</td>
+                <td>@ResolveStateAbbreviation(item.StateId)</td>
             </tr>
         }
     </tbody>
@@ -23,4 +25,10 @@
 @code {
     [Parameter]
     public IEnumerable<OrderDto> Items { get; set; }
+    [Parameter]
+    public IEnumerable<StateDto> States { get; set; }
+
+    private string ResolveStateAbbreviation(int stateId) => States?.FirstOrDefault(x => x.Id.Equals(stateId))?.Abbreviation ?? "Unresolved";
+
+    private void NavigateOrderById(int id) => NavigationManager.NavigateTo($"orders/{id}");
 }

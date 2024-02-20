@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.BusinessLogic", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.DataAccess", "BlazorApp.DataAccess\BlazorApp.DataAccess.csproj", "{46E394F5-F320-4B76-A2BB-AE8042D7CED2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.DataTransferContract", "BlazorApp.DataTransferContract\BlazorApp.DataTransferContract.csproj", "{3BBF2406-B050-46DF-973B-0FBE2C52F02C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.DataTransferContract", "BlazorApp.DataTransferContract\BlazorApp.DataTransferContract.csproj", "{3BBF2406-B050-46DF-973B-0FBE2C52F02C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Server", "BlazorApp.Server\BlazorApp.Server.csproj", "{F33ECFA6-364E-4F0A-AE64-CE15DA8174B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Server", "BlazorApp.Server\BlazorApp.Server.csproj", "{F33ECFA6-364E-4F0A-AE64-CE15DA8174B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlazorApp.DataAccess.Entities
 {
@@ -11,8 +11,11 @@ namespace BlazorApp.DataAccess.Entities
         [MaxLength(100)]
         public string Name { get; set; }
         [Required]
-        [ForeignKey("FK_Order_State")]
         public int StateId { get; set; }
+
         public virtual State State { get; set; }
+        [Required]
+        public virtual ICollection<Window> Windows { get; set; }
+
     }
 }

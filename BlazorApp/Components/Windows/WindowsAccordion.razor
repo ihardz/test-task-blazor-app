@@ -1,0 +1,44 @@
+﻿@using BlazorApp.Components.SubElements
+@using BlazorApp.DataTransferContract.DataTransferObjects.Order
+
+
+<div class="accordion accordion-flush" id="accordion-@ComponentId">
+    @foreach (var item in Items)
+    {
+        <div class="accordion-item">
+            <h4 class="accordion-header" id="flush-heading-@CollapseItemId(item)">
+                <button class="accordion-button collapsed gap-3" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@CollapseItemId(item)" aria-expanded="false" aria-controls="flush-collapse-@CollapseItemId(item)">
+                    <span>@item.Name</span> 
+                    <span class="badge text-bg-secondary">
+                        <span>x</span>@item.Quantity
+                    </span>
+                    <span class="flex-grow-1"></span>
+                    <span class="badge text-bg-info">@item.TotalSubElements</span>
+                </button>
+            </h4>
+            <div id="flush-collapse-@CollapseItemId(item)" class="accordion-collapse collapse" aria-labelledby="flush-heading-@CollapseItemId(item)" data-bs-parent="#accordion-@ComponentId">
+                <div class="accordion-body">
+                    <div class="d-flex gap-3 justify-content-end">
+                        <SubElementUpsertForm Types="@SubElementTypes" WindowId="@item.Id" />
+                        <WindowUpsertForm EditValue="item" />
+                    </div>
+                    <div>
+                        <SubElementsTable Types="@SubElementTypes" Items="item.SubElements" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    private Guid ComponentId = Guid.NewGuid();
+    [Parameter]
+    public IList<WindowDto> Items { get; set; }
+    [Parameter]
+    public IEnumerable<SubElementTypeDto> SubElementTypes { get; set; }
+
+    private string CollapseItemId(WindowDto item) => $"{ComponentId}-{Items.IndexOf(item)}";
+
+}
