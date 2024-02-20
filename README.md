@@ -1,5 +1,8 @@
 # Test Task for Developer
 
+## Deployed instance (will be actual about 1 month): 
+http://ihardz.somee.com/
+
 ## Task Description
 
 Create a web app, for managing sales order data.
