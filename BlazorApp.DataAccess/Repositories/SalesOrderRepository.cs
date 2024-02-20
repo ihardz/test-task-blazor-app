@@ -22,12 +22,29 @@ namespace BlazorApp.DataAccess.Repositories
 
         public async Task<Order> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var entity = await DbContext.Orders                
-                .Include(x=>x.State)
-                .Include(x=>x.Windows).ThenInclude(x=>x.SubElements)
-                .Where(x=>x.Id == id)
+            var entity = await DbContext.Orders
+                .Include(x => x.State)
+                .Include(x => x.Windows).ThenInclude(x => x.SubElements)
+                .Where(x => x.Id == id)
                 .Take(1)
+                .Select(x => new Order
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    State = x.State,
+                    StateId = x.StateId,
+                    Windows = x.Windows.Select(x => new Window
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        OrderId = x.OrderId,
+                        Quantity = x.Quantity,
+                        SubElements = x.SubElements,
+                        TotalSubElements = x.SubElements.Count()
+                    })
+                })
                 .FirstOrDefaultAsync();
+
             return entity;
         }
 

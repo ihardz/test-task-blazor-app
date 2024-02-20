@@ -16,7 +16,7 @@ namespace BlazorApp.DataAccess.Entities
 
         public virtual State State { get; set; }
         [Required]
-        public virtual ICollection<Window> Windows { get; set; }
+        public virtual IEnumerable<Window> Windows { get; set; }
 
     }
 }
