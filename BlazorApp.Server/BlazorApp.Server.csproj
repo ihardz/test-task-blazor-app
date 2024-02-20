@@ -17,10 +17,4 @@
     <ProjectReference Include="..\BlazorApp.DataTransferContract\BlazorApp.DataTransferContract.csproj" />
     <ProjectReference Include="..\BlazorApp\BlazorApp.csproj" />
   </ItemGroup>
-	
-	<ItemGroup>
-		<EmbeddedResource Include="..\ILLink.Descriptors.xml">
-			<LogicalName>ILLink.Descriptors.xml</LogicalName>
-		</EmbeddedResource>
-	</ItemGroup>
 </Project>
